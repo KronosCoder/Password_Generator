@@ -1,0 +1,50 @@
+.particle-shape {
+    width: 400px;
+    aspect-ratio: 1;
+    position: absolute;
+    filter: blur(90px);
+    border-radius: 20%;
+    opacity: 1;
+}
+
+.particle-shape:nth-child(1) {
+    background: #F95454;
+    transform: translate(80% , 40%);    
+    animation: animate-1 20s ease-in-out infinite;
+
+}
+.particle-shape:nth-child(2) {
+    background: #6439FF;
+    transform: translate(-80% , -40%);
+    animation: animate-2 20s ease-in-out infinite;
+}   
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+@keyframes animate-2 {
+    0% {
+        transform: translate(-80% , -40%);
+    }
+    50% {
+        transform: translate(80% , -20%);
+    }
+    100% {
+        transform: translate(-80% , -40%);
+    }
+}
+
+@keyframes animate-1 {
+    0% {
+        transform: translate(80% , 40%);
+    }
+    50% {
+        transform: translate(-80% , 20%);
+    }
+    100% {
+        transform: translate(80% , 40%);
+    }
+}
