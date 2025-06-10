@@ -1,25 +1,28 @@
-// const optionList  = ['numbers' , 'uppercase' , 'lowercase' , 'symbols']
-// const pwdLength = 21
-export default async function PasswordGenerator (optionList , pwdLength) {
-    const numbers = '0123456789';
-    const lowercase = 'abcdefghijklmnopqrstuvwxyz';
-    const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const symbols = '!@#$%^&*()_+[]{};:?';
+// const optionList = ['numbers', 'uppercase', 'lowercase', 'symbols'];
+// const pwdLength = 21;
 
-    let chars = ''
-    
-    if (optionList.includes('numbers')) chars += numbers
-    if (optionList.includes('lowercase')) chars += lowercase
-    if (optionList.includes('uppercase')) chars += uppercase
-    if (optionList.includes('symbols')) chars += symbols
-    
+export default async function PasswordGenerator(optionList, pwdLength) {
     return new Promise((resolve) => {
         setTimeout(() => {
-            let pwd = ''    
-            for (let i = 0; i < pwdLength; i++) {
-                pwd += chars.charAt(Math.floor(Math.random() * chars.length))
-            }
-            resolve(pwd)
-        } , 2000)
-    })
+        const chars = {
+            numbers: '0123456789',
+            symbols: '!@#$%^&*()_+-=[]{}|;:,.<>?',
+            uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+            lowercase: 'abcdefghijklmnopqrstuvwxyz'
+        };
+        
+        let charset = '';
+        optionList.forEach(option => {
+            if (chars[option]) charset += chars[option];
+        });
+        
+        if (!charset) charset = chars.lowercase; 
+        
+        let password = '';
+        for (let i = 0; i < pwdLength; i++) {
+            password += charset.charAt(Math.floor(Math.random() * charset.length));
+        }
+        resolve(password);
+        }, 500);
+    });
 }

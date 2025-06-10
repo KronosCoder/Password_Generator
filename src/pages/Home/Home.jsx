@@ -1,41 +1,49 @@
-import { useState, useEffect } from 'react';
-import './Home.css';
-import PasswordGenerator from '../../utils/PasswordGenerator';
-import ParticlesBackground from '../../components/ParticlesBackground/ParticlesBackground';
-import GeneratedPassword from '../../components/GeneratedPassword/GeneratedPassword';
+import { useState , useCallback } from 'react'
+import PasswordGenerator from '../../utils/PasswordGenerator'
+import ParticlesBackground from '../../components/ParticlesBackground/ParticlesBackground'
+import GeneratedPassword from '../../components/GeneratedPassword/GeneratedPassword'
+import './Home.css'
 
-function Home() {
-  const [options, setOptions] = useState([]);
-  const [pwdLength, setPwdLength] = useState(0);
-  const [pwdGenerated, setPwdGenerated] = useState('');
-  const [loading, setLoading] = useState(false);
-  const optionList = ['numbers', 'symbols', 'uppercase' , 'lowercase'];
+function Home () {
+  const [options, setOptions] = useState([])
+  const [pwdLength, setPwdLength] = useState(0)
+  const [pwdGenerated, setPwdGenerated] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [showError,setShowError] = useState(false)
+  const [errorMsg , setErrorMsg] = useState('')
+
+  const optionList = ['numbers', 'symbols', 'uppercase' , 'lowercase']
 
   const handleOptions = (optionName) => {
     setOptions((prevOptions) => {
       return prevOptions.includes(optionName)
         ? prevOptions.filter((opt) => opt !== optionName)
-        : [...prevOptions, optionName];
-    });
-  };
+        : [...prevOptions, optionName]
+    })
+  }
 
   const handleLength = (e) => {
-    const val = Number(e.target.value);
-    setPwdLength(val);
-  };
+    const val = Number(e.target.value)
+    setPwdLength(val)
+  }
 
-  const getPasswordGenerated = async () => {
-    setLoading(true);
-    const pwd = await PasswordGenerator(options, pwdLength);
-    setPwdGenerated(pwd);
-    setLoading(false);
-  };
+  const getPasswordGenerated = useCallback(async () => {
+    try {
+      const pwd = await PasswordGenerator(optionList , pwdLength)
+      setLoading(true)
+    } catch (err) {
+      setShowError(true)
+      setErrorMsg('Failed to generate password please try again.')
+    } finally {
+      setLoading(false)
+    }
+  },[optionList , pwdLength])
 
   return (
     <>
-      {/* Particles Background Component */}
       {/* Main Content */}
       <div className="home-screen relative h-screen flex justify-center items-center overflow-hidden z-10">
+        {/* Particles Background Component */}
         <ParticlesBackground />
         <div className="w-[80%] lg:w-[50%] xl:w-[40%] h-auto bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30 border border-blue-200 p-8 box" 
           style={{ boxShadow: '0 0 8px #fff' }}
@@ -46,7 +54,7 @@ function Home() {
           <div className="w-full grid grid-cols-4 gap-2">
             <input
               type="number"
-              className="w-full bg-transparent py-3 px-4 rounded-md text-white font-light border border-white outline-none placeholder-white text-xs lg:text-sm col-span-3"
+              className="w-full bg-transparent py-3 px-4 rounded-md text-white border border-white outline-none placeholder-white text-xs lg:text-sm col-span-3 font-bold"
               placeholder="Fill your password length here ..."
               pattern="\d+"
               title="Please input only number."
@@ -86,12 +94,12 @@ function Home() {
               </div>
             </fieldset>
           </form>
-        {/* Generated Password Component */}
-        <GeneratedPassword />
+          {/* Generated Password Component */}
+          <GeneratedPassword />
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export default Home;
+export default Home
