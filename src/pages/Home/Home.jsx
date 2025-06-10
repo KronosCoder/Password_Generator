@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import './Home.css';
 import PasswordGenerator from '../../utils/PasswordGenerator';
-import ParticlesBackground from '../../components/ParticlesBackground';
-
+import ParticlesBackground from '../../components/ParticlesBackground/ParticlesBackground';
+import GeneratedPassword from '../../components/GeneratedPassword/GeneratedPassword';
 
 function Home() {
   const [options, setOptions] = useState([]);
@@ -35,11 +35,9 @@ function Home() {
     <>
       {/* Particles Background Component */}
       {/* Main Content */}
-      <div className="home-screen relative h-screen flex justify-center items-center overflow-hidden z-10"
-          style={{ backgroundImage: 'linear-gradient(180deg, black 40%, rgba(255 , 255 , 255 , 0.195))' }}
-      >
+      <div className="home-screen relative h-screen flex justify-center items-center overflow-hidden z-10">
         <ParticlesBackground />
-        <div className="w-[80%] lg:w-[50%] xl:w-[40%] h-auto bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30 border border-white p-8 box" 
+        <div className="w-[80%] lg:w-[50%] xl:w-[40%] h-auto bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-30 border border-blue-200 p-8 box" 
           style={{ boxShadow: '0 0 8px #fff' }}
         >
           <h1 className="text-white text-3xl font-bold text-center mb-8">
@@ -55,8 +53,8 @@ function Home() {
               onChange={handleLength}
             />
             <button
-              className={`col-span-1 outline-none text-white font-bold transition-colors bg-transparent border border-white rounded-md ${
-                loading ? 'loading' : 'hover:bg-white hover:text-black'
+              className={`generate-btn col-span-1 outline-none text-white font-bold transition-colors bg-transparent border border-white rounded-md ${
+                loading ? 'loading' : ''
               }`}
               onClick={getPasswordGenerated}
               disabled={loading}
@@ -88,21 +86,8 @@ function Home() {
               </div>
             </fieldset>
           </form>
-
-          <div className="w-full mt-4 flex">
-              <div className="w-[90%] h-[40px] bg-slate-100 rounded-l-md overflow-hidden p-2">
-               <input 
-                type="text" 
-                className='w-full h-full outline-none px-4'
-                name="" 
-                id="" 
-                placeholder='Generated Password Here ...'
-                disabled={true}
-               /> 
-              </div>
-              <div className="flex-1 h-[40px] bg-gray-300 rounded-r-md transition-colors cursor-pointer hover:bg-gray-400"></div>
-          </div>
-          
+        {/* Generated Password Component */}
+        <GeneratedPassword />
         </div>
       </div>
     </>

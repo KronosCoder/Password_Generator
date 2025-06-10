@@ -11,8 +11,8 @@
 .particles {
     position: absolute;
     border-radius: 50%;
-    background: #fff;
-    box-shadow: 0 0 45px #fff;
+    background: #7bc4ff;
+    box-shadow: 0 0 20px #ffffff;
     animation-duration: 40s;
     animation-iteration-count: infinite;
     animation-direction: alternate;
