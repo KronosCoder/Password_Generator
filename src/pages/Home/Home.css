@@ -8,6 +8,7 @@ input::-webkit-inner-spin-button {
   /* background: linear-gradient(90deg , #000 , #434343); */
   /* background: linear-gradient(90deg , #5E5368 , #000); */
   background: linear-gradient(90deg , #000 , #130F40);
+  user-select: none;
 }
 
 .option-buttons {
@@ -34,7 +35,7 @@ input::-webkit-inner-spin-button {
 }
 
 .generate-btn {
-  &:hover {
+  &:not(.loading):hover {
     background: #fff;
     color: #000;
     box-shadow: 0 0 10px #fff;

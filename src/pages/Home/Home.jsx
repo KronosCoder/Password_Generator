@@ -4,6 +4,11 @@ import ParticlesBackground from '../../components/ParticlesBackground/ParticlesB
 import GeneratedPassword from '../../components/GeneratedPassword/GeneratedPassword'
 import './Home.css'
 
+const initialPwdStrength = {
+  score : 0,
+  desc : ''
+}
+
 function Home () {
   const [options, setOptions] = useState([])
   const [pwdLength, setPwdLength] = useState(0)
@@ -11,14 +16,17 @@ function Home () {
   const [loading, setLoading] = useState(false)
   const [showError,setShowError] = useState(false)
   const [errorMsg , setErrorMsg] = useState('')
+  const [pwdStrength , setPwdStrength] = useState(initialPwdStrength)
 
   const optionList = ['numbers', 'symbols', 'uppercase' , 'lowercase']
 
   const handleOptions = (optionName) => {
     setOptions((prevOptions) => {
-      return prevOptions.includes(optionName)
-        ? prevOptions.filter((opt) => opt !== optionName)
-        : [...prevOptions, optionName]
+      if (prevOptions.includes(optionName)) {
+        return prevOptions.filter((option) => option !== optionName) // หาว่าค่าก่อนหน้าค่าไหนที่ตรงกับค่าปัจจุบัน ถ้าเจอให้ลบออก
+      } else {
+        return [...prevOptions , optionName] // กระจาย array ผ่าน spread operator และเพิ่ม array ใหม่เข้าไปต่อท้าย
+      }
     })
   }
 
@@ -28,15 +36,19 @@ function Home () {
   }
 
   const getPasswordGenerated = useCallback(async () => {
+    setLoading(true)
+    setShowError(false)
+
     try {
-      const pwd = await PasswordGenerator(optionList , pwdLength)
-      setLoading(true)
+      const password = await PasswordGenerator(optionList , pwdLength)
+      setPwdGenerated(password)
     } catch (err) {
       setShowError(true)
       setErrorMsg('Failed to generate password please try again.')
     } finally {
       setLoading(false)
     }
+    
   },[optionList , pwdLength])
 
   return (
@@ -94,8 +106,15 @@ function Home () {
               </div>
             </fieldset>
           </form>
+
+          <div className="mt-4">
+            <p className='text-white'>Strength : <span className='text-green-300 font-bold'>Strong</span></p>
+          </div>
+
           {/* Generated Password Component */}
-          <GeneratedPassword />
+          <GeneratedPassword 
+
+          />
         </div>
       </div>
     </>
