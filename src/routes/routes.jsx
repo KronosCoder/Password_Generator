@@ -1,5 +1,5 @@
-import NotFound from './pages/Errors/NotFound'
-import Home from './pages/Home/Home'
+import NotFound from '../pages/Errors/NotFound'
+import Home from '../pages/Home/Home'
 import { createBrowserRouter } from 'react-router-dom'
 
 const routes = createBrowserRouter([
